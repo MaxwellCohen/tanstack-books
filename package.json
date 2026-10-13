@@ -18,7 +18,7 @@
     "preview:cloudflare": "CLOUDFLARE=1 pnpm build && wrangler dev",
     "deploy:cloudflare": "CLOUDFLARE=1 pnpm build && wrangler deploy",
     "deploy:netlify": "NETLIFY=1 pnpm build && npx --yes netlify deploy --prod --no-build",
-    "deploy:vercel": "NITRO_PRESET=vercel pnpm build && npx --yes vercel deploy --prebuilt --prod --yes"
+    "deploy:vercel": "NITRO_PRESET=vercel pnpm build && node scripts/patch-vercel-images.mjs && npx --yes vercel deploy --prebuilt --prod --yes"
   },
   "dependencies": {
     "@ariakit/react": "^0.4.41",
