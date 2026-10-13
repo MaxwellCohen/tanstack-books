@@ -38,23 +38,33 @@ type RuntimeRequest = Request & {
   runtime?: { cloudflare?: { env?: CloudflareEnv } }
 }
 
-export function imagesBinding(request: Request): ImagesBinding | undefined {
+export async function imagesBinding(request: Request): Promise<ImagesBinding | undefined> {
   const fromRequest = (request as RuntimeRequest).runtime?.cloudflare?.env?.IMAGES
   if (fromRequest) return fromRequest
 
   const fromGlobal = (globalThis as { __env__?: CloudflareEnv }).__env__?.IMAGES
   if (fromGlobal) return fromGlobal
 
+  const fromCloudflare = (globalThis as { Cloudflare?: { env?: CloudflareEnv } }).Cloudflare?.env
+    ?.IMAGES
+  if (fromCloudflare) return fromCloudflare
+
   try {
-    // Cloudflare Vite plugin / Workers modules expose bindings here.
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const workers = (globalThis as { Cloudflare?: { env?: CloudflareEnv } }).Cloudflare?.env
-    if (workers?.IMAGES) return workers.IMAGES
+    // Cloudflare Vite plugin exposes bindings via `cloudflare:workers`.
+    const mod = (await import(/* @vite-ignore */ 'cloudflare:workers')) as {
+      env?: CloudflareEnv
+    }
+    if (mod.env?.IMAGES) return mod.env.IMAGES
   } catch {
-    // Not running on Workers.
+    // Not running on Workers / module unavailable.
   }
 
   return
+}
+
+/** Vercel CDN collapses `https://` → `https:/` in pathnames; IPX still needs a valid URL. */
+export function repairIpxSourceUrl(id: string): string {
+  return id.replace(/^(https?:)\/(?!\/)/, '$1//')
 }
 
 export function ipxTarget(url: string): { id: string; modifiers: Record<string, string> } | null {
@@ -138,7 +148,7 @@ export async function optimizeWithCloudflare(
   const target = ipxTarget(request.url)
   if (!target) return new Response('Invalid image URL', { status: 400 })
 
-  const source = allowedSource(target.id)
+  const source = allowedSource(repairIpxSourceUrl(target.id))
   if (!source) return new Response('Image host is not allowed', { status: 403 })
 
   const upstream = await fetch(source, { headers: SOURCE_HEADERS, redirect: 'follow' })

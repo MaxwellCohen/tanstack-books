@@ -9,7 +9,7 @@ Leave `POSTGRES_URL` empty to browse the generated preview catalog. Point it at 
 | Branch | Fonts | Caching | CSS / images |
 | --- | --- | --- | --- |
 | `main` | Google Fonts CDN Geist | vibe defaults | Linked stylesheet; remote cover URLs |
-| `optimized` | Self-hosted `@fontsource-variable/geist` | Catalog TTL cache + host-matching HTML `Cache-Control` | Inline CSS; IPX `/_ipx` (+ Cloudflare Images binding) |
+| `optimized` | Self-hosted `@fontsource-variable/geist` | Catalog TTL cache + host-matching HTML `Cache-Control` | Inline CSS; host image CDN (Vercel/Netlify) or `/_ipx` + Cloudflare Images |
 
 ## Commands
 

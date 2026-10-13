@@ -9,6 +9,12 @@ const isCloudflare = Boolean(
   process.env.CLOUDFLARE || process.env.WORKERS_CI || process.env.CF_PAGES,
 )
 const isNetlify = Boolean(process.env.NETLIFY)
+const isVercel = Boolean(
+  process.env.VERCEL || process.env.NITRO_PRESET === 'vercel' || process.env.NITRO_PRESET === 'vercel_edge',
+)
+
+/** Host image CDN for Unpic — set at build time. */
+const imageCdn = isCloudflare ? 'ipx' : isNetlify ? 'netlify' : isVercel ? 'vercel' : 'ipx'
 
 export default defineConfig(async () => {
   const plugins: PluginOption[] = [devtools()]
@@ -27,6 +33,10 @@ export default defineConfig(async () => {
 
   return {
     resolve: { tsconfigPaths: true },
+    define: {
+      'import.meta.env.PUBLIC_IMAGE_CDN': JSON.stringify(imageCdn),
+    },
     plugins,
   }
 })
+
