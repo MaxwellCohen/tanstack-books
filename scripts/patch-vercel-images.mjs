@@ -9,7 +9,11 @@ if (!existsSync(configPath)) {
 
 const config = JSON.parse(readFileSync(configPath, 'utf8'))
 config.images = {
-  sizes: [16, 32, 48, 64, 96, 128, 256, 384, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+  // Include Unpic cover widths (400 default + common srcset breakpoints).
+  sizes: [
+    16, 32, 48, 64, 96, 128, 160, 256, 320, 384, 400, 480, 640, 750, 828, 960, 1080, 1200, 1920,
+    2048, 3840,
+  ],
   domains: ['images.gr-assets.com', 's.gr-assets.com'],
   remotePatterns: [
     { protocol: 'https', hostname: 'images.gr-assets.com' },
