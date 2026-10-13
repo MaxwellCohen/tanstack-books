@@ -11,3 +11,8 @@ dist-ssr
 .vinxi
 __unconfig*
 todos.json
+.vercel
+.env*
+
+# Local Netlify folder
+.netlify
