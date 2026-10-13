@@ -6,10 +6,10 @@ Leave `POSTGRES_URL` empty to browse the generated preview catalog. Point it at 
 
 ## Branches
 
-| Branch | Fonts | Caching |
-| --- | --- | --- |
-| `main` | Google Fonts CDN Geist | vibe defaults |
-| `optimized` | Self-hosted `@fontsource-variable/geist` | Catalog TTL cache + host-matching HTML `Cache-Control` |
+| Branch | Fonts | Caching | CSS / images |
+| --- | --- | --- | --- |
+| `main` | Google Fonts CDN Geist | vibe defaults | Linked stylesheet; remote cover URLs |
+| `optimized` | Self-hosted `@fontsource-variable/geist` | Catalog TTL cache + host-matching HTML `Cache-Control` | Inline CSS; IPX `/_ipx` (+ Cloudflare Images binding) |
 
 ## Commands
 

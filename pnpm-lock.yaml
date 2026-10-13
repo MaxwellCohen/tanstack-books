@@ -35,12 +35,18 @@ importers:
       '@tanstack/react-start':
         specifier: 1.169.1
         version: 1.169.1(esbuild@0.28.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rolldown@1.2.13)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+      '@unpic/react':
+        specifier: ^1.0.2
+        version: 1.0.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
       drizzle-orm:
         specifier: ^0.45.4
         version: 0.45.4(@electric-sql/pglite@0.3.16)(@neondatabase/serverless@1.2.0)(@opentelemetry/api@1.9.1)
+      ipx:
+        specifier: 4.0.0-beta.1
+        version: 4.0.0-beta.1(@types/node@22.20.5)(unstorage@1.17.5(@netlify/blobs@11.1.4)(@vercel/functions@3.9.11(ws@8.22.0))(db0@0.3.4(@electric-sql/pglite@0.3.16)(drizzle-orm@0.45.4(@electric-sql/pglite@0.3.16)(@neondatabase/serverless@1.2.0)(@opentelemetry/api@1.9.1))))
       lucide-react:
         specifier: ^1.56.0
         version: 1.56.0(@types/react@19.3.0)(react@19.3.0)
@@ -71,6 +77,9 @@ importers:
       unlazy:
         specifier: ^2.0.1
         version: 2.0.1
+      unpic:
+        specifier: ^4.2.2
+        version: 4.2.2
       zod:
         specifier: ^4.6.7
         version: 4.6.7
@@ -2186,6 +2195,19 @@ packages:
   '@unlazy/core@2.0.1':
     resolution: {integrity: sha512-zARfhkFhALS5EGdym22E8OrNSEbHDhG8XBUFHr8I435U7JnM8r4Y8g6I+utdKMrxJARcAJx7WGDUo/h9CntWCg==}
 
+  '@unpic/core@1.0.3':
+    resolution: {integrity: sha512-aum9YNVUGso7MjGLD0Rp/08kywCGLqZ03/q6VQBFFakDBOXWEc8D4kPGcZ8v5wEnGRex3lE+++bOuucBp3KJ/w==}
+
+  '@unpic/react@1.0.2':
+    resolution: {integrity: sha512-5RmRfELwTF8w+4zjtQGqjpvX+RU2VLvis3xDCS1O2uWk0PZN2cvatL+3/KAR3mshAuRrkFGTX1XwyAezSXaoCA==}
+    peerDependencies:
+      next: ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      next:
+        optional: true
+
   '@vercel/cli-config@0.3.1':
     resolution: {integrity: sha512-sISbygqlFXYb8qfPu/+2Cf/A8IjrlAuZePdag3EDQr2PRA455s7UZtl9Ro674CWsB/saBRmz3jEkw0YsQs8OoQ==}
 
@@ -3327,6 +3349,16 @@ packages:
     resolution: {integrity: sha512-7Xnt54Dco7uYkfdAw0r2vCly3z0rSaVhEXMzPvl3FndsTVm5p26j+PO+gyinkYmcsEUvX2Rh7OGK7KzYWRu6BA==}
     hasBin: true
 
+  ipx@4.0.0-beta.1:
+    resolution: {integrity: sha512-y6bt8CakzpsSO/TiiD8j+1oM+BFJs4rCiJyg8SyBiEaOUIhOu6DFX7lwCpZB/RnUzxVNQFqU4c4IL4MzyRcEQQ==}
+    engines: {node: ^20.16.0 || >=22.3.0}
+    hasBin: true
+    peerDependencies:
+      unstorage: '*'
+    peerDependenciesMeta:
+      unstorage:
+        optional: true
+
   iron-webcrypto@1.2.1:
     resolution: {integrity: sha512-feOM6FaSr6rEABp/eDfVseKyTMDt+KGpeB35SkVn9Tyn0CqvVsY3EwI0v5i8nMHyJnzCIQf7nsy3p41TPkJZhg==}
 
@@ -4407,6 +4439,11 @@ packages:
     engines: {node: '>=20.16.0'}
     hasBin: true
 
+  srvx@0.12.8:
+    resolution: {integrity: sha512-7k9HoDhluTlD7UJ+F+OopZoPZXB2J8f/5nW2VMLaB8KsSlZlRQxyyoX0hWEQCxB+F+3ZvB5QX3LqB6xSBRfxQQ==}
+    engines: {node: '>=20.16.0'}
+    hasBin: true
+
   stack-trace@0.0.10:
     resolution: {integrity: sha512-KGzahc7puUKkzyMt+IqAep+TVNbKP+k2Lmwhub39m1AsTSkaDutx56aDCo+HLDzf/D26BIHTJWNiTG1KAJiQCg==}
 
@@ -4629,6 +4666,9 @@ packages:
 
   unlazy@2.0.1:
     resolution: {integrity: sha512-BihVSf6XpmWzcXfkDFih+R2s2sbiyi5oJiH7ed3CzMZqXBmdbal5iTz77bglCL9jZJZ0i/7NP6oPU/JHx63mZA==}
+
+  unpic@4.2.2:
+    resolution: {integrity: sha512-z6T2ScMgRV2y2H8MwwhY5xHZWXhUx/YxtOCGJwfURSl7ypVy4HpLIMWoIZKnnxQa/RKzM0kg8hUh0paIrpLfvw==}
 
   unplugin@3.4.0:
     resolution: {integrity: sha512-9skdIFlCsPdFV7wUfZxNsFInlW+7nJmGu2gkTu0OUhF56aXGsHab9x52/QhdJ4lC7ZDPWTxbiC4ANqVlsuaW3w==}
@@ -6945,6 +6985,16 @@ snapshots:
 
   '@unlazy/core@2.0.1': {}
 
+  '@unpic/core@1.0.3':
+    dependencies:
+      unpic: 4.2.2
+
+  '@unpic/react@1.0.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+    dependencies:
+      '@unpic/core': 1.0.3
+      react: 19.3.0
+      react-dom: 19.3.0(react@19.3.0)
+
   '@vercel/cli-config@0.3.1':
     dependencies:
       xdg-app-paths: 5.5.1
@@ -8148,6 +8198,15 @@ snapshots:
       - srvx
       - uploadthing
 
+  ipx@4.0.0-beta.1(@types/node@22.20.5)(unstorage@1.17.5(@netlify/blobs@11.1.4)(@vercel/functions@3.9.11(ws@8.22.0))(db0@0.3.4(@electric-sql/pglite@0.3.16)(drizzle-orm@0.45.4(@electric-sql/pglite@0.3.16)(@neondatabase/serverless@1.2.0)(@opentelemetry/api@1.9.1)))):
+    dependencies:
+      sharp: 0.35.5(@types/node@22.20.5)
+      srvx: 0.12.8
+    optionalDependencies:
+      unstorage: 1.17.5(@netlify/blobs@11.1.4)(@vercel/functions@3.9.11(ws@8.22.0))(db0@0.3.4(@electric-sql/pglite@0.3.16)(drizzle-orm@0.45.4(@electric-sql/pglite@0.3.16)(@neondatabase/serverless@1.2.0)(@opentelemetry/api@1.9.1)))
+    transitivePeerDependencies:
+      - '@types/node'
+
   iron-webcrypto@1.2.1: {}
 
   is-array-buffer@3.0.5:
@@ -9266,6 +9325,8 @@ snapshots:
 
   srvx@0.11.22: {}
 
+  srvx@0.12.8: {}
+
   stack-trace@0.0.10: {}
 
   std-env@4.3.0: {}
@@ -9509,6 +9570,8 @@ snapshots:
   unlazy@2.0.1:
     dependencies:
       '@unlazy/core': 2.0.1
+
+  unpic@4.2.2: {}
 
   unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.13)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)):
     dependencies:

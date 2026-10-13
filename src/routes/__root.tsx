@@ -8,7 +8,7 @@ import { MobileBookSidebar, MobileBookSidebarTrigger } from '@/components/mobile
 import { ThemeProvider } from '@/components/theme/theme-provider'
 import { BookSearch } from '@/features/book/components/book-search'
 import { BookSidebar } from '@/features/book/components/book-sidebar'
-import appCss from '../styles.css?url'
+import appCss from '../styles.css?inline'
 
 const description =
   'Browse two million Goodreads books with TanStack Start, streaming search, and URL-driven filters.'
@@ -31,8 +31,11 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: 'icon', href: '/icon.svg', type: 'image/svg+xml' },
-      { rel: 'stylesheet', href: appCss },
+      { rel: 'preconnect', href: 'https://images.gr-assets.com' },
     ],
+    // Inline like next-books `experimental.inlineCss` / solid-books Document —
+    // shell paints from the first HTML chunk without a stylesheet round-trip.
+    styles: [{ children: appCss }],
     scripts: [{ children: themeScript }],
   }),
   component: RootComponent,

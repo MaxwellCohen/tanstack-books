@@ -1,23 +1,27 @@
-import { EMPTY_IMAGE_URL, getLargeBookImageUrl, PRIORITY_COVER_COUNT } from '@/features/book/book-constants';
+import {
+  EMPTY_IMAGE_URL,
+  getOptimizedBookImageUrl,
+  PRIORITY_COVER_COUNT,
+} from '@/features/book/book-constants'
 
-type Cover = string | null;
-const covers = new Map<string, Cover | Promise<Cover>>();
-const MAX_CACHED_COVERS = 128;
-export const COVER_REVEAL_TIMEOUT_MS = 500;
+type Cover = string | null
+const covers = new Map<string, Cover | Promise<Cover>>()
+const MAX_CACHED_COVERS = 128
+export const COVER_REVEAL_TIMEOUT_MS = 500
 
-let coverGatingEnabled = false;
+let coverGatingEnabled = false
 
 export function enableCoverGating() {
-  coverGatingEnabled = true;
+  coverGatingEnabled = true
 }
 
 export function isCoverGatingEnabled() {
-  return coverGatingEnabled;
+  return coverGatingEnabled
 }
 
 export function loadBookCover(imageUrl: string | null, priority = false): Cover | Promise<Cover> {
-  const src = getLargeBookImageUrl(imageUrl ?? EMPTY_IMAGE_URL);
-  if (typeof window === 'undefined' || !coverGatingEnabled) return src;
+  const src = getOptimizedBookImageUrl(imageUrl ?? EMPTY_IMAGE_URL)
+  if (typeof window === 'undefined' || !coverGatingEnabled) return src
 
   const cached = covers.get(src);
   if (cached !== undefined) return cached;
