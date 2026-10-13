@@ -4,11 +4,10 @@ import { hostDocumentCacheControl } from '@/lib/catalog-cache'
 const catalogHeadersMiddleware = createMiddleware({ type: 'request' }).server(
   async ({ next }) => {
     const result = await next()
-    const { response } = result
-    const contentType = response.headers.get('content-type') ?? ''
+    const contentType = result.response.headers.get('content-type') ?? ''
     if (!contentType.includes('text/html')) return result
 
-    const headers = new Headers(response.headers)
+    const headers = new Headers(result.response.headers)
     headers.set('Cache-Control', hostDocumentCacheControl())
     headers.delete('CDN-Cache-Control')
     headers.delete('Vercel-CDN-Cache-Control')
@@ -16,9 +15,9 @@ const catalogHeadersMiddleware = createMiddleware({ type: 'request' }).server(
 
     return {
       ...result,
-      response: new Response(response.body, {
-        status: response.status,
-        statusText: response.statusText,
+      response: new Response(result.response.body, {
+        status: result.response.status,
+        statusText: result.response.statusText,
         headers,
       }),
     }
