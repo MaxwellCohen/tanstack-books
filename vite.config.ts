@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type PluginOption } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
@@ -11,7 +11,7 @@ const isCloudflare = Boolean(
 const isNetlify = Boolean(process.env.NETLIFY)
 
 export default defineConfig(async () => {
-  const plugins = [devtools()]
+  const plugins: PluginOption[] = [devtools()]
 
   if (isCloudflare) {
     const { cloudflare } = await import('@cloudflare/vite-plugin')

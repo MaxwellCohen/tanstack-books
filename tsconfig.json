@@ -1,5 +1,6 @@
 {
   "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["src/lib/db/seed-*.ts", "node_modules", ".output", "dist", ".vercel", ".netlify"],
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react-jsx",

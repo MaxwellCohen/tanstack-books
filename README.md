@@ -1,8 +1,15 @@
 # TanStack Books
 
-The Goodreads catalog app, ported to [TanStack Start](https://tanstack.com/start).
+The Goodreads catalog app, ported to [TanStack Start](https://tanstack.com/start) (React + Vite + Nitro).
 
-Leave `POSTGRES_URL` empty to browse the generated preview catalog. Point it at Neon/Postgres to query the full dataset.
+Leave `POSTGRES_URL` empty to browse the generated preview catalog. Point it at the shared Neon Postgres to query the full ~2M Goodreads dataset.
+
+## Branches
+
+| Branch | Fonts | Caching |
+| --- | --- | --- |
+| `main` | Google Fonts CDN Geist | vibe defaults |
+| `optimized` | Self-hosted `@fontsource-variable/geist` | Catalog TTL cache + host-matching HTML `Cache-Control` |
 
 ## Commands
 
@@ -14,9 +21,9 @@ Leave `POSTGRES_URL` empty to browse the generated preview catalog. Point it at 
 
 ## Database
 
+- `pnpm db:generate`
 - `pnpm db:migrate`
-- `pnpm db:seed-authors`
-- `pnpm db:seed-books`
+- `pnpm db:studio`
 
 ## Deploy
 
@@ -29,15 +36,17 @@ Production (`main`):
 Optimized (`optimized`):
 
 - Vercel: [tanstack-books-optimized.vercel.app](https://tanstack-books-optimized.vercel.app)
-- Netlify: [tanstack-books-max-optimized.netlify.app](https://tanstack-books-max-optimized.netlify.app)
+- Netlify: [tanstack-books-optimized.netlify.app](https://tanstack-books-optimized.netlify.app)
 - Cloudflare: [tanstack-books-optimized.to-email-max.workers.dev](https://tanstack-books-optimized.to-email-max.workers.dev)
 
-Vercel/Nitro is the default adapter. Set `NETLIFY=1` for Netlify, or `CLOUDFLARE=1` for Cloudflare Workers:
+Vercel/Nitro is the default adapter (`NITRO_PRESET=vercel` for prebuilt deploys). Set `NETLIFY=1` for Netlify, or `CLOUDFLARE=1` for Cloudflare Workers:
 
 - `pnpm deploy:vercel`
 - `pnpm deploy:netlify`
 - `pnpm deploy:cloudflare`
 - `pnpm preview:cloudflare`
+
+Set `POSTGRES_URL` on every host for both branches before first deploy.
 
 ## Files
 
@@ -45,4 +54,5 @@ Vercel/Nitro is the default adapter. Set `NETLIFY=1` for Netlify, or `CLOUDFLARE
 - `src/routes/index.tsx` — catalog with validated search + streaming loaders
 - `src/routes/$id.tsx` — book detail
 - `src/features/book/book.functions.ts` — typed server functions
+- `src/start.ts` — request middleware (optimized Cache-Control)
 - `src/styles/global.css` — Tailwind CSS entry

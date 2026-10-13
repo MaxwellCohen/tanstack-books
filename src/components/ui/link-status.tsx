@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function LinkStatus({ children, className, hint = 'end' }: Props) {
-  const pending = useRouterState({ select: (state) => state.isLoading || state.isTransitioning })
+  const pending = useRouterState({ select: (state) => state.isLoading })
 
   const slot = (
     <span

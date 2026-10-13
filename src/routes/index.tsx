@@ -1,8 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, type ErrorComponentProps } from '@tanstack/react-router'
 import { Suspense, use } from 'react'
 import { Button } from '@/components/ui/button'
 import { ErrorState } from '@/components/ui/error-state'
 import { getBooksCountFn, getBooksPageFn } from '@/features/book/book.functions'
+import type { BookSummary } from '@/features/book/book-types'
 import { BookGrid, BookGridSkeleton } from '@/features/book/components/book-grid'
 import {
   BookPagination,
@@ -11,11 +12,17 @@ import {
 import { catalogSearchSchema, cleanSearch } from '@/lib/search-schema'
 import type { SearchParams } from '@/lib/url-state'
 
+type HomeLoaderData = {
+  books: Promise<BookSummary[]>
+  searchParams: SearchParams
+  totalResults: Promise<number>
+}
+
 export const Route = createFileRoute('/')({
   ssr: true,
   validateSearch: catalogSearchSchema,
   loaderDeps: ({ search }) => cleanSearch(search),
-  loader: ({ deps }) => ({
+  loader: ({ deps }): HomeLoaderData => ({
     books: getBooksPageFn({ data: deps }),
     searchParams: deps as SearchParams,
     totalResults: getBooksCountFn({ data: deps }),
@@ -28,12 +35,12 @@ export const Route = createFileRoute('/')({
 })
 
 function HomeBooks() {
-  const { books, searchParams } = Route.useLoaderData()
+  const { books, searchParams } = Route.useLoaderData() as HomeLoaderData
   return <BookGrid books={use(books)} searchParams={searchParams} />
 }
 
 function HomePagination() {
-  const { searchParams, totalResults } = Route.useLoaderData()
+  const { searchParams, totalResults } = Route.useLoaderData() as HomeLoaderData
   return (
     <BookPagination searchParams={searchParams} totalResults={use(totalResults)} />
   )
@@ -56,9 +63,10 @@ function HomePage() {
   )
 }
 
-function HomeError({ error }: { error: Error }) {
+function HomeError({ error }: ErrorComponentProps) {
+  const message = error instanceof Error ? error.message : 'Something went wrong'
   return (
-    <ErrorState body={error.message} title="Can't load books">
+    <ErrorState body={message} title="Can't load books">
       <Button className="mt-1" onClick={() => window.location.reload()} size="sm" variant="secondary">
         Try again
       </Button>

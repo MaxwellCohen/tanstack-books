@@ -1,4 +1,4 @@
-import { Link, type LinkProps } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { startTransition, useRef, type ReactNode } from 'react'
 import { cleanSearch } from '@/lib/search-schema'
 import { parseSearchParams, type SearchParams } from '@/lib/url-state'
@@ -41,18 +41,16 @@ export function FastLink({
   const resetTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const target = parseHref(href)
 
-  const linkProps = {
-    className,
-    preload: prefetch === false ? false : prefetch === true ? 'intent' : prefetch,
-    ...rest,
-    ...(target.to === '/'
-      ? { to: '/' as const, search: target.search }
-      : { to: '/$id' as const, params: target.params!, search: target.search }),
-  } satisfies LinkProps
+  const preload = prefetch === false ? false : prefetch === true ? 'intent' : prefetch
 
   return (
     <Link
-      {...linkProps}
+      className={className}
+      preload={preload}
+      {...rest}
+      {...(target.to === '/'
+        ? { to: '/' as const, search: target.search }
+        : { to: '/$id' as const, params: target.params!, search: target.search })}
       onMouseDown={(event) => {
         const interactiveTarget =
           event.target instanceof Element
