@@ -16,3 +16,5 @@ todos.json
 
 # Local Netlify folder
 .netlify
+feature-tests/.artifacts
+test-results

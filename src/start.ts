@@ -2,8 +2,10 @@ import { createMiddleware, createStart } from '@tanstack/react-start'
 import { hostDocumentCacheControl } from '@/lib/catalog-cache'
 
 const catalogHeadersMiddleware = createMiddleware({ type: 'request' }).server(
-  async ({ next }) => {
+  async ({ next, request }) => {
     const result = await next()
+    // Feature-test routes that set their own route-level headers() keep them.
+    if (new URL(request.url).pathname.startsWith('/feature-tests/caching')) return result
     const contentType = result.response.headers.get('content-type') ?? ''
     if (!contentType.includes('text/html')) return result
 
