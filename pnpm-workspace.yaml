@@ -3,3 +3,5 @@ allowBuilds:
   lightningcss: true
   sharp: set this to true or false
   workerd: set this to true or false
+minimumReleaseAgeExclude:
+  - vite@8.4.0
