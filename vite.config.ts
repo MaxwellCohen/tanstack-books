@@ -29,7 +29,34 @@ export default defineConfig(async () => {
     plugins.push(nitro({ rollupConfig: { external: [/^@sentry\//] } }))
   }
 
-  plugins.push(tailwindcss(), tanstackStart(), viteReact())
+  plugins.push(
+    tailwindcss(),
+    tanstackStart({
+      // Experimental: inline manifest CSS (route-level imports) into <style> tags.
+      // Used by /feature-tests/css-inlining; app CSS is already `?inline` in __root.
+      server: { build: { inlineCss: true } },
+      // Prerender only the feature-test static render-mode route.
+      prerender: { enabled: true, autoStaticPathsDiscovery: false, crawlLinks: false },
+      pages: [{ path: '/feature-tests/render-modes/static', prerender: { enabled: true } }],
+    }),
+    viteReact(),
+  )
+
+  if (process.env.ANALYZE) {
+    // Third-party bundle analyzer (no first-party one in TanStack Start).
+    const { visualizer } = await import('rollup-plugin-visualizer')
+    const outDir = process.env.ANALYZE_OUT ?? 'feature-tests/.artifacts'
+    plugins.push(
+      {
+        ...visualizer({ filename: `${outDir}/bundle-stats.html`, template: 'treemap', gzipSize: true }),
+        applyToEnvironment: (env: { name: string }) => env.name === 'client',
+      } as PluginOption,
+      {
+        ...visualizer({ filename: `${outDir}/bundle-stats.json`, template: 'raw-data' }),
+        applyToEnvironment: (env: { name: string }) => env.name === 'client',
+      } as PluginOption,
+    )
+  }
 
   return {
     resolve: { tsconfigPaths: true },

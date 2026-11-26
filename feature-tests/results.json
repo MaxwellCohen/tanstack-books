@@ -1,0 +1,85 @@
+{
+  "framework": "tanstack-start-react",
+  "repo": "tanstack-books",
+  "commit": "8cb8c2d58c586693945154d14b55eff1b233279f",
+  "ranAt": "2026-11-26T05:01:26.111Z",
+  "results": {
+    "css-inlining": {
+      "claimedLabel": "experimental",
+      "status": "pass",
+      "method": "Experimental tanstackStart({ server: { build: { inlineCss: true } } }) inlines the route-level `import \"./css-inlining.css\"`",
+      "evidence": "<style data-tsr-inline-css=\"\"> holds .ft-css-inline-marker; 0 <link rel=stylesheet>, 0 stylesheet requests; computed color applied",
+      "test": "feature-tests/css-inlining.spec.ts"
+    },
+    "font-optimization": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "@fontsource-variable/geist imported in global CSS (self-hosted); preload <link> added by hand via route head() with a ?url import",
+      "evidence": "1 same-origin woff2 requests, 0 Google Fonts; 5 @font-face font-display:swap; preload /assets/geist-latin-wght-normal-BgDaEnEv.woff2 (hand-added, matches @font-face src)",
+      "test": "feature-tests/font-optimization.spec.ts"
+    },
+    "image-pipeline": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "@unpic/react <Image cdn=\"ipx\"> + IPX handler route (/_ipx) on Nitro",
+      "evidence": "srcset widths [400,800], width=400 height=250, offscreen loading=lazy; /_ipx/s_400x250,f_auto/feature-tests/sample.jpg -> image/avif (1081 B, source jpeg 20203 B); layout=\"fixed\" (constrained layout omits width/height attrs, uses CSS aspect-ratio)",
+      "test": "feature-tests/image-pipeline.spec.ts"
+    },
+    "caching": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "Route `headers()` sets Cache-Control (max-age/s-maxage/stale-while-revalidate); reuse is done by the HTTP cache/CDN",
+      "evidence": "Cache-Control \"public, max-age=30, s-maxage=60, stale-while-revalidate=300\"; browser fetch #2 reused cached HTML (stamp 2026-11-26T05:00:50.435Z == 2026-11-26T05:00:50.435Z); revalidation (no-cache) got fresh 2026-11-26T05:00:51.651Z; no server-side cache (direct GET -> 2026-11-26T05:00:51.680Z)",
+      "test": "feature-tests/caching.spec.ts"
+    },
+    "route-prefetching": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "Router defaultPreload: 'intent' / <Link preload=\"intent\">",
+      "evidence": "on hover, before click: route chunk /assets/target-D_cvgwe-.js + loader server fn /_serverFn/ad22717454b1dc63b50d015525697…",
+      "test": "feature-tests/route-prefetching.spec.ts"
+    },
+    "islands": {
+      "claimedLabel": "experimental",
+      "status": "pass",
+      "method": "<Hydrate when={never()}> around a static card and <Hydrate when={visible()}> around a counter (@tanstack/react-start)",
+      "evidence": "11 JS files downloaded, none contain the static marker; island clicked after visible() hydration; static child split into unrequested chunk(s) islands-CAuEAUsf.js",
+      "test": "feature-tests/islands.spec.ts"
+    },
+    "render-modes": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "tanstackStart pages[].prerender (static), default SSR, and route `ssr: false` (client-only)",
+      "evidence": "prerendered file stamp 2026-11-26T05:00:30.851Z served unchanged twice; SSR 2026-11-26T05:01:14.921Z != 2026-11-26T05:01:14.991Z; ssr:false HTML lacks content, browser renders it",
+      "test": "feature-tests/render-modes.spec.ts"
+    },
+    "reactivity": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "@preact/signals-react signal passed directly into JSX (text-node binding)",
+      "evidence": "@preact/signals-react: 3 updates -> text \"3\", SignalCounter renders stayed 1; useState baseline re-rendered 3x",
+      "test": "feature-tests/reactivity.spec.ts"
+    },
+    "bundle-analysis": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "rollup-plugin-visualizer added to vite.config.ts behind ANALYZE=1",
+      "evidence": "ANALYZE=1 vite build -> bundle-stats.html (1132535 B) + bundle-stats.json (2572 modules)",
+      "test": "feature-tests/bundle-analysis.spec.ts"
+    },
+    "third-party-scripts": {
+      "claimedLabel": "manual",
+      "status": "pass",
+      "method": "Hand-rolled: useEffect + requestIdleCallback injects an async <script> after hydration (no loading-strategy API)",
+      "evidence": "not in SSR HTML; injected async (idle-after-hydration) at 2875ms after DCL 125ms / FCP 220ms; global set (readyState complete)",
+      "test": "feature-tests/third-party-scripts.spec.ts"
+    },
+    "multi-host-deployment": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "Nitro presets (node, vercel) + @netlify/vite-plugin-tanstack-start + @cloudflare/vite-plugin selected by env in vite.config.ts",
+      "evidence": "built OK: node (Nitro node-server); vercel (Nitro preset); netlify (@netlify/vite-plugin-tanstack-start); cloudflare (@cloudflare/vite-plugin)",
+      "test": "feature-tests/multi-host-deployment.spec.ts"
+    }
+  }
+}
