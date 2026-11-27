@@ -41,10 +41,6 @@
     "minimumCacheTTL": 14400
   },
   "git": {
-    "deploymentEnabled": {
-      "**": false,
-      "main": true,
-      "optimized": true
-    }
+    "deploymentEnabled": false
   }
 }
