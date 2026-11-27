@@ -9,6 +9,9 @@ import { ThemeProvider } from '@/components/theme/theme-provider'
 import { BookSearch } from '@/features/book/components/book-search'
 import { BookSidebar } from '@/features/book/components/book-sidebar'
 import appCss from '../styles.css?inline'
+// Same hashed file the inlined @font-face points at, so the preload is reused.
+import geistWoff2 from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url'
+import { catalogDocumentHeaders } from '@/lib/catalog-headers'
 
 const description =
   'Browse two million Goodreads books with TanStack Start, streaming search, and URL-driven filters.'
@@ -16,6 +19,9 @@ const description =
 const themeScript = `(function(){try{var t=localStorage.getItem("theme");var d=t==="dark"||((t==="system"||!t)&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d);}catch(e){}})();`
 
 export const Route = createRootRoute({
+  // Route-level headers() for the HTML document; child routes (e.g.
+  // /feature-tests/caching) override by returning their own Cache-Control.
+  headers: () => catalogDocumentHeaders(),
   head: () => ({
     meta: [
       { charSet: 'utf-8' },
@@ -32,6 +38,7 @@ export const Route = createRootRoute({
     links: [
       { rel: 'icon', href: '/icon.svg', type: 'image/svg+xml' },
       { rel: 'preconnect', href: 'https://images.gr-assets.com' },
+      { rel: 'preload', href: geistWoff2, as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
     ],
     // Inline like next-books `experimental.inlineCss` / solid-books Document —
     // shell paints from the first HTML chunk without a stylesheet round-trip.

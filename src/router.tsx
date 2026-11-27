@@ -6,7 +6,8 @@ export function getRouter() {
     routeTree,
     scrollRestoration: true,
     defaultPreload: 'intent',
-    defaultPreloadStaleTime: 0,
+    // Keep the router's default preloadStaleTime (30s) so the loader data fetched
+    // on hover is reused on click; 0 marks it stale at once and reloads it.
   })
 
   return router
